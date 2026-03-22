@@ -13,11 +13,11 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  cupertino_icons: 1.0.5          # <--- MUDOU AQUI (sem o ^)
-  shared_preferences: 2.1.1       
-  intl: 0.18.0                    
-  share_plus: 7.1.0               
-  file_picker: 5.5.0
+  cupertino_icons: ^1.0.8
+  shared_preferences: ^2.2.0
+  intl: ^0.19.0          # Versão exigida pelo Flutter novo
+  share_plus: ^10.0.0
+  file_picker: ^8.0.0
 
 dev_dependencies:
   flutter_test:
