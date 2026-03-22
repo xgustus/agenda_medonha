@@ -1,12 +1,14 @@
-# O caminho para o script auxiliar do Flutter
-flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
+# Esta linha abaixo é OBRIGATÓRIA para o Flutter reconhecer os comandos
+path_to_utils = File.expand_path(File.join('..', 'Flutter', 'podhelper.rb'), __FILE__)
+load path_to_utils
 
-platform :ios, '12.0' # Mantendo o suporte para o iPhone 6/5s
+platform :ios, '12.0'
 
 target 'Runner' do
   use_frameworks!
   use_modular_headers!
 
+  # Agora o comando vai funcionar porque demos o "load" acima
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
 end
 
@@ -14,7 +16,7 @@ post_install do |installer|
   installer.pods_project.targets.each do |target|
     flutter_additional_ios_build_settings(target)
     
-    # Garante que todas as bibliotecas (Pods) também aceitem o iOS 12
+    # Força todos os Pods a compilarem para iOS 12
     target.build_configurations.each do |config|
       config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.0'
     end
