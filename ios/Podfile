@@ -1,18 +1,21 @@
-platform :ios, '12.0' # <--- AQUI VOCÊ TRAVA NO IOS 12
+# O caminho para o script auxiliar do Flutter
+flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
 
-# O restante é o padrão do Flutter
-use_frameworks!
-use_modular_headers!
+platform :ios, '12.0' # Mantendo o suporte para o iPhone 6/5s
 
 target 'Runner' do
+  use_frameworks!
+  use_modular_headers!
+
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
 end
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|
     flutter_additional_ios_build_settings(target)
+    
+    # Garante que todas as bibliotecas (Pods) também aceitem o iOS 12
     target.build_configurations.each do |config|
-      # Garante que todas as bibliotecas também usem iOS 12
       config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.0'
     end
   end
