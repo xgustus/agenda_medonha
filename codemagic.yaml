@@ -1,34 +1,33 @@
 workflows:
   ios-ipa-build:
-    name: Build iOS IPA for Agenda Medonha (iOS 12 compatible)
+    name: Build iOS IPA for Agenda Medonha (iOS 12)
     max_build_duration: 120
-    instance_type: mac_mini_m2  # Ou mac_pro se disponível no free
+    instance_type: mac_mini_m2
     environment:
-      flutter: 3.10.6  # Dart ~3.0.6; mude para 3.10.0 se não tiver exatamente 3.10.6
-      # Se quiser mais nova depois: flutter: stable (mas teste primeiro)
-      vars:
-        XCODE_VERSION: "16.2"  # Ou latest se preferir
+      flutter: 3.10.6
+      xcode: 15.4  # Versão recomendada para manter suporte ao iOS 12
+      groups:
+        - app_store_credentials # Se você configurou certificados no painel
     scripts:
       - name: Get Flutter packages
-        script: flutter pub get
-      - name: Install CocoaPods dependencies
+        script: | 
+          flutter pub get
+      - name: Install CocoaPods
         script: |
           cd ios
           pod install --repo-update
-          cd ..
-      - name: Build IPA (release, development method)
+      - name: Build IPA
         script: |
+          # Se não tiver certificados configurados, use: 
+          # flutter build ios --release --no-codesign
+          
           flutter build ipa --release \
             --export-method=development \
             --build-name=1.0.2 \
             --build-number=1
     artifacts:
-      - build/ios/ipa/*.ipa  # O .ipa sai aqui
-      - build/ios/iphoneos/*.app  # Extra se precisar
+      - build/ios/ipa/*.ipa
     publishing:
       email:
         recipients:
-          - seuemail@example.com  # Mude para o seu (opcional, recebe notificação)
-        notify:
-          success: true
-          failure: true
+          - seuemail@exemplo.com # Coloque seu e-mail real aqui
